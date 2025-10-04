@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Hariom's Page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- CSS STYLES --- */
+        :root {
+            --glow-color: #03e9f4;
+            --background-color: #0a043c;
+            --text-color: #ffffff;
+            --card-bg: rgba(255, 255, 255, 0.1);
+        }
+        body {
+            margin: 0; font-family: 'Poppins', sans-serif; background-color: var(--background-color);
+            color: var(--text-color); overflow: hidden;
+        }
+        #particles-js { position: absolute; width: 100%; height: 100%; z-index: -1; }
+        .page {
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            height: 100vh; text-align: center; padding: 20px; box-sizing: border-box;
+            position: absolute; top: 0; left: 0; width: 100%;
+            transition: opacity 0.7s ease-in-out, transform 0.7s ease-in-out;
+            overflow-y: auto;
+        }
+        .page.hidden { opacity: 0; pointer-events: none; transform: translateY(20px); }
+        .page.visible { opacity: 1; transform: translateY(0); }
+        .title-3d {
+            font-size: clamp(2rem, 8vw, 3.5rem);
+            text-shadow: 0 1px 0 #ccc, 0 2px 0 #c9c9c9, 0 3px 0 #bbb, 0 4px 0 #b9b9b9, 0 5px 0 #aaa,
+                0 6px 1px rgba(0,0,0,.1), 0 0 5px rgba(0,0,0,.1), 0 1px 3px rgba(0,0,0,.3),
+                0 3px 5px rgba(0,0,0,.2), 0 5px 10px rgba(0,0,0,.25), 0 10px 10px rgba(0,0,0,.2),
+                0 20px 20px rgba(0,0,0,.15);
+        }
+        .glowing-btn {
+            position: relative; padding: 15px 30px; margin-top: 40px; color: var(--glow-color);
+            background-color: transparent; border: 1px solid var(--glow-color); border-radius: 5px;
+            text-decoration: none; text-transform: uppercase; font-size: 1.2rem;
+            letter-spacing: 4px; cursor: pointer; transition: 0.5s; overflow: hidden;
+        }
+        .glowing-btn:hover {
+            background: var(--glow-color); color: #050801;
+            box-shadow: 0 0 5px var(--glow-color), 0 0 25px var(--glow-color), 0 0 50px var(--glow-color), 0 0 200px var(--glow-color);
+        }
+        h2 { font-size: 2rem; } h3 { font-size: 1.5rem; }
+        .social-container { display: flex; flex-direction: column; align-items: center; margin-top: 20px; }
+        .social-title { font-size: 1.5rem; letter-spacing: 2px; margin-bottom: 30px; font-weight: 300; }
+        .main-social-icon { font-size: 7rem; color: #fff; transition: 0.4s ease-in-out; animation: pulse 2.5s infinite; }
+        .main-social-icon:hover { color: var(--glow-color); transform: scale(1.1); text-shadow: 0 0 15px var(--glow-color), 0 0 30px var(--glow-color); }
+        .other-socials { margin-top: 40px; display: flex; gap: 40px; }
+        .other-social-icon { font-size: 3.5rem; color: #fff; transition: 0.3s; }
+        .other-social-icon:hover { color: var(--glow-color); transform: translateY(-10px); }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+        .card {
+            background: var(--card-bg); border-radius: 15px; padding: 20px;
+            margin: 15px; width: 90%; max-width: 600px; backdrop-filter: blur(5px);
+        }
+        .btn-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin: 20px 0; }
+        #quiz-result { margin-top: 15px; font-weight: bold; min-height: 24px; }
+        .small-btn { padding: 10px 20px; font-size: 1rem; letter-spacing: 2px; margin-top: 10px; }
+        
+        /* --- NEW QUIZ MAKER CSS --- */
+        .quiz-creator-form { width: 100%; text-align: left; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: 300; }
+        .form-group input[type="text"] {
+            width: 100%; padding: 10px; background: rgba(0,0,0,0.3); border: 1px solid var(--glow-color);
+            border-radius: 5px; color: var(--text-color); font-size: 1rem; box-sizing: border-box;
+        }
+        .answer-group { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+        .answer-group input[type="radio"] { accent-color: var(--glow-color); width: 20px; height: 20px; }
+        .question-card { border: 1px dashed rgba(255,255,255,0.3); padding: 15px; border-radius: 10px; margin-bottom: 20px; }
+        #share-link-container { margin-top: 20px; display: none; }
+        #share-link { width: calc(100% - 100px); }
+        #copy-btn { margin-top: 0; width: 90px; padding: 10px; font-size: 0.9rem; letter-spacing: 1px; }
+    </style>
+</head>
+<body>
+    <div id="particles-js"></div>
+
+    <main id="home-page" class="page visible">
+        <h1 class="title-3d">Welcome to Hariom Information Page</h1>
+        <button onclick="showPage('socials-page')" class="glowing-btn">Click Here</button>
+    </main>
+
+    <main id="socials-page" class="page hidden">
+        <div class="social-container">
+            <h3 class="social-title">Click below for Hariom's Social Media</h3>
+            <a href="#" target="_blank" class="main-social-icon"><i class="fab fa-tiktok"></i></a>
+            <div class="other-socials">
+                <a href="#" target="_blank" class="other-social-icon"><i class="fab fa-instagram"></i></a>
+                <a href="#" target="_blank" class="other-social-icon"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" target="_blank" class="other-social-icon"><i class="fab fa-youtube"></i></a>
+            </div>
+        </div>
+        <button onclick="showPage('engage-page')" class="glowing-btn">Next</button>
+    </main>
+
+    <main id="engage-page" class="page hidden">
+        <h2>Have Some Fun!</h2>
+        <div class="card">
+            <h3>Hariom's Quiz</h3>
+            <p>Test your knowledge about me!</p>
+            <button class="glowing-btn small-btn" onclick="startHariomQuiz()">Play Now</button>
+        </div>
+        <div class="card">
+            <h3>Fun Fact Generator</h3>
+            <p id="fact-text">Click the button for a random fun fact about me!</p>
+            <button id="fact-btn" class="glowing-btn small-btn">New Fact</button>
+        </div>
+        <div class="card">
+            <h3>Create & Share a Quiz</h3>
+            <p>Make your own quiz and challenge your friends!</p>
+            <button class="glowing-btn small-btn" onclick="showPage('quiz-creator-page')">Start Creating</button>
+        </div>
+    </main>
+
+    <main id="quiz-player-page" class="page hidden">
+        <div class="card">
+            <h3 id="quiz-title">Quiz Time!</h3>
+            <div id="quiz-container">
+                <p id="question-text"></p>
+                <div id="answer-buttons" class="btn-grid"></div>
+                <p id="quiz-result"></p>
+            </div>
+        </div>
+    </main>
+    
+    <main id="quiz-creator-page" class="page hidden">
+        <div class="card">
+            <h2>Create Your Own Quiz</h2>
+            <form id="quiz-creator-form" class="quiz-creator-form">
+                <div class="form-group">
+                    <label for="quiz-title-input">Quiz Title</label>
+                    <input type="text" id="quiz-title-input" placeholder="e.g., How well do you know me?" required>
+                </div>
+                <div id="questions-container">
+                    </div>
+                <button type="button" class="glowing-btn small-btn" id="add-question-btn">Add Question</button>
+                <button type="button" class="glowing-btn small-btn" id="generate-link-btn">Generate Share Link</button>
+            </form>
+            <div id="share-link-container">
+                <p>Your link is ready! Share it with friends:</p>
+                <input type="text" id="share-link" readonly>
+                <button id="copy-btn" class="glowing-btn small-btn">Copy</button>
+            </div>
+             <button class="glowing-btn small-btn" onclick="showPage('engage-page')">Back to Fun</button>
+        </div>
+    </main>
+    
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+    // --- JAVASCRIPT LOGIC ---
+
+    // --- 1. PARTICLE BACKGROUND & PAGE NAVIGATION ---
+    particlesJS("particles-js",{particles:{number:{value:80,density:{enable:!0,value_area:800}},color:{value:"#03e9f4"},shape:{type:"circle"},opacity:{value:.5,random:!1},size:{value:3,random:!0},line_linked:{enable:!0,distance:150,color:"#ffffff",opacity:.4,width:1},move:{enable:!0,speed:6,direction:"none",random:!1,straight:!1,out_mode:"out"}},interactivity:{detect_on:"canvas",events:{onhover:{enable:!0,mode:"repulse"},onclick:{enable:!0,mode:"push"}},modes:{repulse:{distance:100,duration:.4},push:{particles_nb:4}}},retina_detect:!0});
+    
+    let currentPage = 'home-page';
+    function showPage(pageId) {
+        document.getElementById(currentPage).classList.remove('visible');
+        document.getElementById(currentPage).classList.add('hidden');
+        document.getElementById(pageId).classList.remove('hidden');
+        document.getElementById(pageId).classList.add('visible');
+        currentPage = pageId;
+    }
+
+    // --- 2. HARIOM'S QUIZ & FUN FACTS ---
+    const factText = document.getElementById('fact-text');
+    const factBtn = document.getElementById('fact-btn');
+    const funFacts = [ "I can speak three different languages.", "My favorite movie genre is Sci-Fi.", "I have traveled to 5 different countries.", "I once won a local chess tournament.", "I enjoy trekking in the Himalayas." ];
+    factBtn.addEventListener('click', () => {
+        const randomIndex = Math.floor(Math.random() * funFacts.length);
+        factText.innerText = funFacts[randomIndex];
+    });
+
+    const hariomQuizData = {
+        title: "The Ultimate Hariom Quiz",
+        questions: [
+            { question: 'What is Hariom\'s favorite hobby?', answers: [ { text: 'Gaming', correct: true }, { text: 'Reading', correct: false }, { text: 'Sports', correct: false }, { text: 'Singing', correct: false } ] },
+            { question: 'Which city was Hariom born in?', answers: [ { text: 'Kathmandu', correct: false }, { text: 'Pokhara', correct: true }, { text: 'Biratnagar', correct: false }, { text: 'Butwal', correct: false } ] },
+            { question: 'What is Hariom\'s favorite food?', answers: [ { text: 'Pizza', correct: false }, { text: 'Burger', correct: false }, { text: 'Momo', correct: true }, { text: 'Pasta', correct: false } ] }
+        ]
+    };
+    function startHariomQuiz() {
+        runQuiz(hariomQuizData);
+    }
+
+    // --- 3. QUIZ PLAYER ENGINE (USED BY EVERYONE) ---
+    const quizTitleEl = document.getElementById('quiz-title');
+    const questionTextEl = document.getElementById('question-text');
+    const answerButtonsEl = document.getElementById('answer-buttons');
+    const quizResultEl = document.getElementById('quiz-result');
+    let currentQuizData, currentQuestionIndex;
+
+    function runQuiz(quizData) {
+        currentQuizData = quizData;
+        currentQuestionIndex = 0;
+        quizTitleEl.innerText = quizData.title;
+        showPage('quiz-player-page');
+        showQuestion();
+    }
+
+    function showQuestion() {
+        quizResultEl.innerText = '';
+        let question = currentQuizData.questions[currentQuestionIndex];
+        questionTextEl.innerText = question.question;
+        answerButtonsEl.innerHTML = '';
+        question.answers.forEach(answer => {
+            const button = document.createElement('button');
+            button.innerText = answer.text;
+            button.classList.add('glowing-btn', 'small-btn');
+            if (answer.correct) button.dataset.correct = true;
+            button.addEventListener('click', selectAnswer);
+            answerButtonsEl.appendChild(button);
+        });
+    }
+
+    function selectAnswer(e) {
+        const correct = e.target.dataset.correct === 'true';
+        quizResultEl.style.color = correct ? '#03e9f4' : '#ff4d4d';
+        quizResultEl.innerText = correct ? 'Correct! 🎉' : 'Wrong Answer!';
+        
+        Array.from(answerButtonsEl.children).forEach(b => b.disabled = true);
+
+        setTimeout(() => {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < currentQuizData.questions.length) {
+                showQuestion();
+            } else {
+                questionTextEl.innerText = 'Quiz Finished!';
+                answerButtonsEl.innerHTML = `<p>You completed the quiz!</p>`;
+                quizResultEl.innerText = 'Thanks for playing!';
+                setTimeout(() => showPage('engage-page'), 3000);
+            }
+        }, 2000);
+    }
+
+    // --- 4. USER QUIZ CREATOR LOGIC ---
+    const questionsContainer = document.getElementById('questions-container');
+    const addQuestionBtn = document.getElementById('add-question-btn');
+    const generateLinkBtn = document.getElementById('generate-link-btn');
+    const shareLinkContainer = document.getElementById('share-link-container');
+    const shareLinkInput = document.getElementById('share-link');
+    const copyBtn = document.getElementById('copy-btn');
+    
+    let questionCount = 0;
+
+    function addNewQuestion() {
+        questionCount++;
+        const questionDiv = document.createElement('div');
+        questionDiv.classList.add('question-card');
+        questionDiv.innerHTML = `
+            <div class="form-group">
+                <label>Question ${questionCount}</label>
+                <input type="text" class="question-input" placeholder="Enter your question" required>
+            </div>
+            <div class="form-group">
+                <label>Answers (Select the correct one)</label>
+                ${[...Array(4)].map((_, i) => `
+                    <div class="answer-group">
+                        <input type="radio" name="correct-answer-${questionCount}" value="${i}" required>
+                        <input type="text" class="answer-input" placeholder="Answer ${i + 1}" required>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+        questionsContainer.appendChild(questionDiv);
+    }
+    
+    addQuestionBtn.addEventListener('click', addNewQuestion);
+    
+    generateLinkBtn.addEventListener('click', () => {
+        const quizData = {
+            title: document.getElementById('quiz-title-input').value,
+            questions: []
+        };
+        const questionCards = questionsContainer.querySelectorAll('.question-card');
+        let isValid = true;
+        if (!quizData.title) isValid = false;
+
+        questionCards.forEach((card, index) => {
+            const questionInput = card.querySelector('.question-input');
+            const answerInputs = card.querySelectorAll('.answer-input');
+            const radio = card.querySelector(`input[name="correct-answer-${index + 1}"]:checked`);
+
+            if (!questionInput.value || !radio || ![...answerInputs].every(i => i.value)) {
+                isValid = false;
+                return;
+            }
+            
+            quizData.questions.push({
+                question: questionInput.value,
+                answers: [...answerInputs].map((input, i) => ({
+                    text: input.value,
+                    correct: i == radio.value
+                }))
+            });
+        });
+        
+        if (!isValid || quizData.questions.length === 0) {
+            alert('Please fill out all fields, including title, all questions, all answers, and select a correct answer for each question.');
+            return;
+        }
+
+        const jsonString = JSON.stringify(quizData);
+        const base64String = btoa(jsonString); // Encode to Base64
+        const shareURL = `${window.location.origin}${window.location.pathname}?quiz=${base64String}`;
+        
+        shareLinkInput.value = shareURL;
+        shareLinkContainer.style.display = 'block';
+    });
+
+    copyBtn.addEventListener('click', () => {
+        shareLinkInput.select();
+        document.execCommand('copy');
+        copyBtn.innerText = 'Copied!';
+        setTimeout(() => { copyBtn.innerText = 'Copy'; }, 2000);
+    });
+
+    // --- 5. PAGE LOAD LOGIC (CHECK FOR SHARED QUIZ) ---
+    window.addEventListener('load', () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const quizDataParam = urlParams.get('quiz');
+
+        if (quizDataParam) {
+            try {
+                const decodedJson = atob(quizDataParam); // Decode from Base64
+                const userQuizData = JSON.parse(decodedJson);
+                runQuiz(userQuizData);
+            } catch (e) {
+                console.error("Failed to parse quiz data from URL:", e);
+                // If data is invalid, just load normally
+                showPage('home-page');
+            }
+        } else {
+            showPage('home-page');
+        }
+        addNewQuestion(); // Add the first question to the creator form by default
+    });
+    </script>
+</body>
+</html>
